@@ -1,0 +1,1 @@
+Little example project to show how to use the REGEX SQLPredicate in Hazelcast.
