@@ -13,7 +13,7 @@ public class Main {
     private static final String regex = "[^abc].{3}$";
 
     public static void main(String[] args) {
-        // Create Hazelcast instance
+        // Create Hazelcast instances
         final Config cfg = new Config();
         final HazelcastInstance instance1 = Hazelcast.newHazelcastInstance(cfg);
         final HazelcastInstance instance2 = Hazelcast.newHazelcastInstance(cfg);
@@ -59,7 +59,8 @@ public class Main {
 
             // Filter with Hazelcast SQLPredicate
             final List<String> actualValues = new LinkedList<String>();
-            Set<ExampleMapEntry> subset = (Set<ExampleMapEntry>) map2.values(new SqlPredicate("nr < 20 AND name REGEX '" + regex + "'"));
+            final SqlPredicate sqlPredicate = new SqlPredicate("nr < 20 AND name REGEX '" + regex + "'");
+            final Set<ExampleMapEntry> subset = (Set<ExampleMapEntry>) map2.values(sqlPredicate);
             for (ExampleMapEntry exampleMapEntry : subset) {
                 actualValues.add(exampleMapEntry.getName());
             }
@@ -83,7 +84,7 @@ public class Main {
             System.out.println();
 
         } finally {
-            // Shutdown all Hazelcast instance
+            // Shutdown all Hazelcast instances
             Hazelcast.shutdownAll();
         }
     }
